@@ -12,7 +12,7 @@ zodiac_data = [
         ("Скорпион", (10, 23, 11, 21)),
         ("Стрелец", (11, 22, 12, 21))
     ]
-date = input("Введите дату(XX.XX.XXXX): ").split(sep=".")
+date = input("Введите дату(XX.XX): ").split(sep=".")
 for sign, (start_month, start_day, end_month, end_day) in zodiac_data:
         if (int(date[1]) == start_month and int(date[0]) >= start_day) or (int(date[1]) == end_month and int(date[0]) <= end_day):
             print(sign)
