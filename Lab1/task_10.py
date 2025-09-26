@@ -1,8 +1,0 @@
-a = int(input("Enter a: "))
-b = int(input("Enter b: "))
-print(str(a) + " + " + str(b) + " = " + str(a+b))
-print(str(a) + " - " + str(b) + " = " + str(a-b))
-print(str(a) + " * " + str(b) + " = " + str(a*b))
-print(str(a) + " / " + str(b) + " = " + str(a/b))
-print(str(a) + " % " + str(b) + " = " + str(a%b))
-print(str(a) + " ** " + str(b) + " = " + str(a**b))
