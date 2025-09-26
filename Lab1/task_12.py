@@ -1,6 +1,6 @@
-minutes = float(input("Минуты разговора: "))
-sms = float(input("Количество СМС: "))
-internet = float(input("Интернет(Мб): "))
+minutes = int(input("Минуты разговора: "))
+sms = int(input("Количество СМС: "))
+internet = int(input("Интернет(Мб): "))
 
 print("Сумма тарификации: 24.99 руб")
 
@@ -10,19 +10,23 @@ addit_sms = 0
 
 if minutes > 60:
     addit_min = minutes - 60
-    print("Сумма за дополнительные минуты: " + str(round((addit_min * 0.89), 2)) + " руб")
+    print(f"Сумма за дополнительные минуты: {round((addit_min * 0.89), 2)} руб")
 
 if sms > 30:
     addit_sms = sms - 30
-    print("Сумма за дополнительные сообщения: " + str(round((addit_sms * 0.59), 2)) + " руб")  # Исправлено: addit_sms
+    print(f"Сумма за дополнительные сообщения: {round((addit_sms * 0.59), 2)} руб")
 
 if internet > 1024:
     addit_int = internet - 1024
-    print("Сумма за дополнительный интернет-трафик: " + str(round((addit_int * 0.79), 2)) + " руб")  # Исправлено: addit_int
+    print(f"Сумма за дополнительный интернет-трафик: {round((addit_int * 0.79), 2)} руб")
+
+if internet > 1024 or sms > 30 or minutes > 60:
+    addit_int = internet - 1024
+    print(f"Сумма за дополнительных трат: {round((addit_min * 0.89 + addit_sms * 0.59 + addit_int * 0.79), 2)} руб")
 
 sum_services = 24.99 + addit_min * 0.89 + addit_sms * 0.59 + addit_int * 0.79
 tax = round((sum_services) * 0.02, 2)
 total = round(sum_services + tax, 2)
 
-print("Налог: " + str(tax) + " руб")
-print("Итоговая сумма: " + str(total) + " руб")
+print(f"Налог: {tax} руб")
+print(f"Итоговая сумма: {total} руб")
