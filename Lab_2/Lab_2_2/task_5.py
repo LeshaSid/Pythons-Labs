@@ -1,4 +1,3 @@
-
 def cache(func):
     cache_list = {}
     def wrapper(*args, **kwargs):
