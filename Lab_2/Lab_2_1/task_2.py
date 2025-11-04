@@ -19,11 +19,10 @@ print(f"Повторяющиеся числа: {repeating_numbers}")
 even_numbers = []
 odd_numbers = []
 for n in ls:
-    if n == int(n):
-        if n % 2 == 0:
-            even_numbers.append(n)
-        else:
-            odd_numbers.append(n)
+    if n % 2 == 0:
+        even_numbers.append(n)
+    else:
+        odd_numbers.append(n)
 print(f"Четные числа: {even_numbers}")
 print(f"Нечетные числа: {odd_numbers}")
 
