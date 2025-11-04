@@ -1,10 +1,16 @@
 s = input("Введите строку: ")
-new_s = ""
-dict_s = {}
-for i in s:
-    dict_s[i] = dict_s.get(i, 0) + 1
 
-for key in dict_s:
-    new_s += str(key)
-    new_s += str(dict_s[key])
-print(f"Итоговая строка: {new_s}")
+if not s:
+    print("Ошибка! Пустая строка!")
+else:
+    new_s = ""
+    count = 1
+    
+    for i in range(len(s)):
+        if i < len(s) - 1 and s[i] == s[i + 1]:
+            count += 1
+        else:
+            new_s += s[i] + str(count)
+            count = 1
+    
+    print(f"Итоговая строка: {new_s}")
