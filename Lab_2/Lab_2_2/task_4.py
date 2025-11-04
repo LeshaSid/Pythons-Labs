@@ -1,8 +1,10 @@
-def transpose(a, n, m):
+def transpose(a):
     b = []
-    for i in range(n):
+    n = len(a)
+    m = len(a[0])
+    for i in range(m):
         b.append([])
-        for j in range(m):
+        for j in range(n):
             b[i].append(a[j][i])
     return b
 n = int(input("Enter n: "))
@@ -14,4 +16,4 @@ for i in range(n):
         x = int(input(f"Enter x[{i}][{j}]: "))
         a[i].append(x)
 print(a)
-print(transpose(a, n, m))
+print(transpose(a))
