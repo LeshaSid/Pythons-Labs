@@ -4,7 +4,7 @@ words = text.split()
 
 word_count = {}
 for word in words:
-    cleaned_word = word.lower().strip('.,!?;:"')
+    cleaned_word = word.lower().strip('.,!?;:"()[]{}<>«»""''`~@#$%^&*_-+=|\\/')
     if cleaned_word:
         word_count[cleaned_word] = word_count.get(cleaned_word, 0) + 1
 
