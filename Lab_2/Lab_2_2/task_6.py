@@ -3,8 +3,9 @@ def flatten_list(lst):
     while i < len(lst):
         item = lst[i]
         if type(item) is list:
-            flatten_list(item)
-            lst[i:i+1] = item
+            flattened_sublist = flatten_list(item)
+            lst[i:i+1] = flattened_sublist
+            i += len(flattened_sublist)
         else:
             i += 1
             

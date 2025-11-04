@@ -3,10 +3,10 @@ def cache(func):
     def wrapper(*args, **kwargs):
         if (args in cache_list.keys()):
             print("in dec")
-            return cache_list[*args]
+            return cache_list[args]
         else:
             result = func(*args, **kwargs)
-            cache_list[*args] = result
+            cache_list[args] = result
             return result
     return wrapper
 
