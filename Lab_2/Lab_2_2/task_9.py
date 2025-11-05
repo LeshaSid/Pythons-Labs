@@ -1,11 +1,10 @@
-def type_check(type1, type2):
+def type_check(*args1):
     def dec(func):
-        def wrapper(*args, **kwargs):
-            if len(args) >= 1 and not isinstance(args[0], type1):
-                raise TypeError(f"Неверные типы!")
-            if len(args) >= 2 and not isinstance(args[1], type2):
-                raise TypeError(f"Неверные типы!")
-            return func(*args, **kwargs)
+        def wrapper(*args2, **kwargs):
+            for i in range(len(args2)):
+                if not isinstance(args2[i], args1[i]):
+                    raise TypeError("Неверные типы!")
+            return func(*args2, **kwargs)
         return wrapper
     return dec
 
@@ -13,5 +12,13 @@ def type_check(type1, type2):
 def summmmmm(a, b):
     return a + b
 
-summmmmm(1, 2)
+@type_check(int, int, int, int)
+def summmmmm2(a, b, c, d):
+    return a + b + c + d
+
+
+print(summmmmm(1, 2))
 summmmmm("1", 2)
+
+print(summmmmm2(1, 2, 3, 4))
+summmmmm2(1, "2", 3, 4)
