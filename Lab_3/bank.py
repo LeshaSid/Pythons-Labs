@@ -1,7 +1,25 @@
 from random import randint
+
 global clt_ids, exchange_rate
 clt_ids = []
-exchange_rate = {}
+exchange_rates = {
+    "USD": 1.0,
+    "EUR" : 0.87,
+    "BYN" : 2.98,
+    "RUB" : 80.84,
+    "PLN" : 3.71,
+    "CNY" : 7.12
+    
+}
+
+def convert_currency(amount, from_currency, to_currency):
+    if from_currency not in exchange_rates or to_currency not in exchange_rates:
+        raise ValueError("Валюта не найдена в словаре")
+    
+    amount_in_usd = amount / exchange_rates[from_currency]
+    converted_amount = amount_in_usd * exchange_rates[to_currency]
+    
+    return round(converted_amount, 2)
 
 class Account:
     def __init__(self, currency, balance=0):
@@ -13,6 +31,14 @@ class Bank:
         self.name = bank_name
         self.clients = {}
         self.accounts = {}
+
+    def add(self, client):
+        self.clients[client.id] = client
+        self.accounts[client.id] = client.accounts
+    
+    def delete(self, client):
+        self.clients.popitem(client.id)
+        self.accounts.popitem(client.id)
 
 class Client:
     def __init__(self, full_name, date_birth):
@@ -32,6 +58,8 @@ class Client:
     def open_account(self, currency):
         if currency in self.accounts:
             raise ValueError(f"Счет в валюте {currency} уже существует")
+        if currency not in exchange_rates:
+            raise ValueError(f"Невозможно создать счёт в валюте {currency}")
         
         self.accounts[currency] = Account(currency)
         print(f"Счет в валюте {currency} успешно открыт")
@@ -86,7 +114,7 @@ class Client:
             raise ValueError("Недостаточно средств на исходном счете")
         
         self.accounts[from_currency].balance -= amount
-        to_client.accounts[to_currency].balance += amount
+        to_client.accounts[to_currency].balance += convert_currency(amount, from_currency, to_currency)
         
         if to_client == self:
             print(f"Переведено {amount:.2f} {from_currency} → {to_currency}. Перевод между своими счетами.")
@@ -95,13 +123,14 @@ class Client:
 
     def account_statement(self):
         with open("statement.txt", "w") as file:
-            print(f"ФИО: {self.full_name}")
-            print(f"Дата рождения: {self.date_birth}")
+            file.write(f"ID: {self.id}\n")
+            file.write(f"ФИО: {self.full_name}\n")
+            file.write(f"Дата рождения: {self.date_birth}\n")
             amount_all_acc = 0
             for acc in self.accounts:
-                print(f"Остаток на счету {acc.balance} {acc.currency}")
-                amount_all_acc += acc.balance
-            print(f"Сумма на всех счетах {amount_all_acc}")
+                file.write(f"Остаток на счету в валюте {acc}: {self.accounts[acc].balance} {acc}\n")
+                amount_all_acc += convert_currency(self.accounts[acc].balance, acc, "USD")
+            file.write(f"Сумма на всех счетах {amount_all_acc} USD\n")
             
 
 
@@ -114,15 +143,16 @@ class Main:
         user_id = input("Введите ваш ID: ")
         if user_id in clt_ids:
             while True:
-                print("""1. Открыть счет для клиента. 
-                        2. Закрыть счет клиента. 
-                        3. Пополнить банковский счет.
-                        4. Снять сумму со счета.
-                        5. Перевести деньги между счетами.
-                        6. Выход""")
+                print("""1. Открыть счет для клиента.
+2. Закрыть счет клиента. 
+3. Пополнить банковский счет. 
+4. Снять сумму со счета.
+5. Перевести деньги между счетами.
+6. Сделать выписку по счетам
+7. Выход""")
                 ans = int(input())
                 if ans == 1:
-                    cur = input("Введите валюту для счёта: ")
+                    cur = input(f"Введите валюту для счёта{tuple(exchange_rates.keys())[::]}: ")
                     self.current_client.open_account(cur)
                 elif ans == 2:
                     cur = input("Введите валюту для счёта: ")
