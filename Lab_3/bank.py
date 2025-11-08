@@ -15,9 +15,9 @@ class Bank:
         self.accounts = {}
 
 class Client:
-    def __init__(self, client_id, full_name, date_birth):
-        self.full_name = input("ФИО: ")
-        self.date_birth = input("Дата рождения: ")
+    def __init__(self, full_name, date_birth):
+        self.full_name = full_name
+        self.date_birth = date_birth
         
         is_unique_id = False
         while not is_unique_id:
@@ -93,33 +93,62 @@ class Client:
         else:
             print(f"Переведено {amount:.2f} {from_currency} → {to_currency} клиенту {to_client.full_name}")
 
+    def account_statement(self):
+        with open("statement.txt", "w") as file:
+            print(f"ФИО: {self.full_name}")
+            print(f"Дата рождения: {self.date_birth}")
+            amount_all_acc = 0
+            for acc in self.accounts:
+                print(f"Остаток на счету {acc.balance} {acc.currency}")
+                amount_all_acc += acc.balance
+            print(f"Сумма на всех счетах {amount_all_acc}")
+            
+
 
 class Main:
     def __init__(self):
         self.bank = Bank("MyBank")
-        self.current_client = None
+        self.current_client = Client("Сидорук Алексей Александрович", "01.02.2006")
 
-    def main():
+    def main(self):
         user_id = input("Введите ваш ID: ")
-        while True:
-            print("""1. Открыть счет для клиента. 
-                    2. Закрыть счет клиента. 
-                    3. Пополнить банковский счет.
-                    4. Снять сумму со счета.
-                    5. Перевести деньги между счетами.""")
-            ans = int(input())
-            if ans == 1:
-                pass
-            elif ans == 2:
-                pass
-            elif ans == 3:
-                pass
-            elif ans == 4:
-                pass
-            elif ans == 5:
-                pass
-            else:
-                pass
+        if user_id in clt_ids:
+            while True:
+                print("""1. Открыть счет для клиента. 
+                        2. Закрыть счет клиента. 
+                        3. Пополнить банковский счет.
+                        4. Снять сумму со счета.
+                        5. Перевести деньги между счетами.
+                        6. Выход""")
+                ans = int(input())
+                if ans == 1:
+                    cur = input("Введите валюту для счёта: ")
+                    self.current_client.open_account(cur)
+                elif ans == 2:
+                    cur = input("Введите валюту для счёта: ")
+                    self.current_client.close_account(cur)
+                elif ans == 3:
+                    cur = input("Введите валюту для счёта: ")
+                    am = int(input("Введите сумму пополнения: "))
+                    self.current_client.deposit(cur, am)
+                elif ans == 4:
+                    cur = input("Введите валюту для счёта: ")
+                    am = int(input("Введите сумму пополнения: "))
+                    self.current_client.withdraw(cur, am) 
+                elif ans == 5:
+                    from_cur = input("Введите валюту исходного счёта: ")
+                    to_cur = input("Введите валюту счёта-получателя: ")
+                    am = int(input("Введите сумму перевода: "))
+                    self.current_client.transfer(from_cur, to_cur, am)
+                elif ans == 6:
+                    self.current_client.account_statement()
+                    print("Выписка по всем счетам сделана!")
+                elif ans == 7:
+                    False
+                else:
+                    raise ValueError("Пункта меню с таким номером не существует!")
+        else:
+            raise ValueError("Клиента с таким ID не существует!")
 
 
 if __name__ == "__main__":
