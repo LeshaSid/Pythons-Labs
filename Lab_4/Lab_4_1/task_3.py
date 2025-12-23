@@ -89,7 +89,10 @@ line(2.99, 5.19, 0.15, 280, dark_pink)
 line(3.01, 5.04, 0.1, 220, dark_pink)
 line(2.94, 4.99, 0.1, 160, dark_pink)
 
+circle(6.90, 6.25, 0.2, black, black)
+circle(6.05, 6.25, 0.2, black, black)
+line(6.05, 6.25, 1, color=black)
+
 ax.axis('off')
 plt.title('Мини-пиг', fontsize=16, fontweight='bold', color='#8B4513')
-plt.tight_layout()
-plt.show()
+plt.savefig("123.png")
